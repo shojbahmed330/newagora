@@ -1,4 +1,4 @@
-// api/create_call.js
+// api/create_call.js (Updated for agora-token v2.0.5)
 const { v4: uuidv4 } = require('uuid');
 
 /**
@@ -25,6 +25,15 @@ const { v4: uuidv4 } = require('uuid');
 
 module.exports = async (req, res) => {
   try {
+    // CORS headers
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+    if (req.method === 'OPTIONS') {
+      return res.status(200).end();
+    }
+
     if (req.method !== 'POST') {
       return res.status(405).json({ error: 'Method not allowed. Use POST.' });
     }
@@ -58,6 +67,7 @@ module.exports = async (req, res) => {
     // NOTE: If you want to persist call record, save (callId, channelName, callerId, calleeId, createdAt) in DB here.
 
     return res.json({
+      success: true,
       callId,
       channelName,
       callerId,

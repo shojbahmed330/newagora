@@ -1,4 +1,4 @@
-// api/token.js
+// api/token.js (Updated for agora-token v2.0.5)
 const { RtcTokenBuilder, RtmTokenBuilder, RtcRole, RtmRole } = require('agora-token');
 
 module.exports = (req, res) => {
@@ -45,7 +45,7 @@ module.exports = (req, res) => {
       let token;
       let responseUid;
 
-      // ✅ যদি numeric uid হয়
+      // ✅ যদি numeric uid হয়
       if (!isNaN(Number(uid))) {
         token = RtcTokenBuilder.buildTokenWithUid(
           APP_ID,
@@ -53,18 +53,18 @@ module.exports = (req, res) => {
           channelName,
           Number(uid),
           roleConst,
-          expiry
+          Math.floor(Date.now() / 1000) + expiry // Current timestamp + expiry
         );
         responseUid = Number(uid);
       } else {
-        // ✅ যদি string uid হয়
+        // ✅ যদি string uid হয়
         token = RtcTokenBuilder.buildTokenWithAccount(
           APP_ID,
           APP_CERTIFICATE,
           channelName,
           uid,
           roleConst,
-          expiry
+          Math.floor(Date.now() / 1000) + expiry // Current timestamp + expiry
         );
         responseUid = uid;
       }
@@ -83,7 +83,7 @@ module.exports = (req, res) => {
         APP_CERTIFICATE,
         String(uid),
         RtmRole.Rtm_User,
-        expiry
+        Math.floor(Date.now() / 1000) + expiry // Current timestamp + expiry
       );
 
       return res.json({

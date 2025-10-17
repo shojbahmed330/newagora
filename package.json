@@ -8,6 +8,7 @@
     "start": "node api/token.js"
   },
   "dependencies": {
-    "agora-token": "^2.0.0"
+    "agora-token": "^0.0.7",
+    "uuid": "^9.0.0"
   }
 }
